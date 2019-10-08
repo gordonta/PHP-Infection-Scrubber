@@ -6,7 +6,7 @@ infected_files = {} #dictionary containing key-value pairs of the infected file 
 #regex pattern: (include\(")(.*?)(infected_filename.php"\))
 infected_files_filename = "infected_files.txt"
 ROOT_DIR = "code_base/" #CHANGETHIS to the root directory of the code to be scrubbed
-SEARCH_STRING = "code_base/path/to/vulnerable/file/infected_file.php" #CHANGETHIS to reflect the filepath to the originally infected file (patient zero) that has the vulnerable code
+SEARCH_STRING = "code_base/functions/title.php" #CHANGETHIS to reflect the filepath to the originally infected file (patient zero) that has the vulnerable code
 
 def scrub_file(filename, pattern):
     for i, line in enumerate(open(filename)):
