@@ -8,4 +8,5 @@ Specifically, I discovered a file at code_base/functions/title.php that had the 
 In this case, a URL variable of "val" would be passed, unsanitized, into a SQL Query.  This meant that title.php was vulnerable to SQLi.  However, it got worse.  Numerous other files included title.php in code like this:
 <? include("../functions/title.php"); ?>
 And then other files included THOSE files that included title.php, and so on and so forth.  So I wrote this script to scrub a PHP codebase and figure out how far a vulnerability spread via include()/require()/include_once()/require_once() statements.
-This script, infection_spread.py does exactly that.  
+This script, infection_spread.py does exactly that.  To use, you need to change the ROOT_DIR global var to reflect where your codebase is and change the SEARCH_STRING global var to reflect the full path to the vulnerable code file.
+The script will run, and will output the list of infected files into infected_files.txt, indented to show where the infection spread from.
