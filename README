@@ -1,0 +1,11 @@
+I encountered this situation in a whitebox pentest.  The entire web application was written in PHP and had numerous SQLi vulenrabilities.  However, I needed to see every place where the SQLi could be exploited (see the scale of the vuln), and the vulnerable code was included all over the web app.
+Specifically, I discovered a file at code_base/functions/title.php that had the following code:
+<?php if (isset($_GET["val"]))
+	{
+	  $title = selections("select * from menus where id = ".$_GET["val"]);
+	  $title2 = mysql_fetch_array($title);
+?>
+In this case, a URL variable of "val" would be passed, unsanitized, into a SQL Query.  This meant that title.php was vulnerable to SQLi.  However, it got worse.  Numerous other files included title.php in code like this:
+<? include("../functions/title.php"); ?>
+And then other files included THOSE files that included title.php, and so on and so forth.  So I wrote this script to scrub a PHP codebase and figure out how far a vulnerability spread via include()/require()/include_once()/require_once() statements.
+This script, infection_spread.py does exactly that.  
